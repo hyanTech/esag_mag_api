@@ -1,0 +1,12 @@
+{
+  "name": "esag_mag_api",
+  "version": "1.0.0",
+  "description": "api app esag_mag",
+  "license": "ISC",
+  "author": "gp3",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
