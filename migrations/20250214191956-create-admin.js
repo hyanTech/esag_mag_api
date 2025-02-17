@@ -16,7 +16,11 @@ module.exports = {
         type: Sequelize.STRING
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: {
+          name: 'unique_email_constraint',
+          msg: 'L\'adresse e-mail est déjà utilisée.'
+        }
       },
       password: {
         type: Sequelize.STRING
