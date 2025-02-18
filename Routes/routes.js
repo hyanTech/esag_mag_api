@@ -10,6 +10,7 @@ router.post('/test2', Controller.test2)
 
 //admin Auth
 router.post('/create', AdminAuthController.CreateAdmin)
+router.post('/AdminLogin', AdminAuthController.AdminLogin)
 
 
 
