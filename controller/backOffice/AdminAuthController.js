@@ -1,7 +1,7 @@
 
-const {Admin} = require('../models');
-const { loginAdminSchema } = require('../Validation/admin/AdminLogin');
-const { createAdminSchema } = require('../Validation/admin/createAdmin');
+const {Admin} = require('../../models');
+const { loginAdminSchema } = require('../../Validation/admin/AdminLogin');
+const { createAdminSchema } = require('../../Validation/admin/createAdmin');
 const jwt = require('jsonwebtoken');
 
 
@@ -32,14 +32,19 @@ class AdminAuthController {
             if(!user){
                 return res.status(400).json({message:"User not found"});
             }
-            if(!user.validPassword (admin.password)){
-                return res.status(400).json({message:"Password incorrect"});
+
+            if(user.enabled == false){
+                return res.status(400).json({message:"User not enabled"});
             }
-            const token = jwt.sign({id:user.id}, process.env.JWT_SECRET);
+
+            if(!user.validPassword (admin.password)){
+                return res.status(400).json({message:"Password or user not correct"});
+            }
+            const token = jwt.sign({id:user.id, name:user.Name, email:user.email}, process.env.JWT_SECRET);
             res.json({message:"Login successful",token});
         } catch (error) {
             console.log(error);
-          return  res.status(400).json({ message: error });
+          return  res.status(500).json({ message: error });
         }
         
     }
