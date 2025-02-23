@@ -1,7 +1,7 @@
 
-const {Admin} = require('../models');
-const { loginAdminSchema } = require('../Validation/admin/AdminLogin');
-const { createAdminSchema } = require('../Validation/admin/createAdmin');
+const {Admin} = require('../../models');
+const { loginAdminSchema } = require('../../Validation/admin/AdminLogin');
+const { createAdminSchema } = require('../../Validation/admin/createAdmin');
 const jwt = require('jsonwebtoken');
 
 
