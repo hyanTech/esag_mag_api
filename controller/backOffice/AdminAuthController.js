@@ -40,7 +40,7 @@ class AdminAuthController {
             if(!user.validPassword (admin.password)){
                 return res.status(400).json({message:"Password or user not correct"});
             }
-            const token = jwt.sign({id:user.id, name:user.Name, email:user.email}, process.env.JWT_SECRET);
+            const token = jwt.sign({id:user.id, name:user.Name, email:user.email}, process.env.JWT_SECRET,{expiresIn:'4h'});
             res.json({message:"Login successful",token});
         } catch (error) {
             console.log(error);

@@ -23,10 +23,10 @@ router.post('/AdminLogin', AdminAuthController.AdminLogin)
 
 //actualite
 router.post('/createActualite',verifyAdminToken,upload.single('image'),resizeImage(800, 600), ActualiteAdminController.createActualite)
-router.get('/getActualite', ActualiteAdminController.getActualites)
-router.delete('/deleteActualite/:id', ActualiteAdminController.deleteActualites)
-router.put('/updateActualite/:id', ActualiteAdminController.updateActualite)
-router.get('/detailsActu/:id', ActualiteAdminController.detailsActualite)
+router.get('/getActualite',verifyAdminToken, ActualiteAdminController.getActualites)
+router.delete('/deleteActualite/:id',verifyAdminToken, ActualiteAdminController.deleteActualites)
+router.put('/updateActualite/:id',verifyAdminToken, ActualiteAdminController.updateActualite)
+router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.detailsActualite)
 
 
 
