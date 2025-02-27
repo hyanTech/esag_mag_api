@@ -41,7 +41,7 @@ class AdminAuthController {
                 return res.status(400).json({message:"Password or user not correct"});
             }
             const token = jwt.sign({id:user.id, name:user.Name, email:user.email}, process.env.JWT_SECRET,{expiresIn:'4h'});
-            res.json({message:"Login successful",token});
+            return res.status(200).json({message:"Login successful",token});
         } catch (error) {
             console.log(error);
           return  res.status(500).json({ message: error });

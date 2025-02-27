@@ -7,6 +7,7 @@ const { sendFile } = require("../functions/sendFile");
 const ActualiteAdminController = require("../controller/backOffice/ActualiteAdminController");
 const AdminAuthController = require("../controller/backOffice/AdminAuthController");
 const verifyAdminToken = require("../middlewares/AdminAuthMiddleware");
+const ActualiteController = require("../controller/frontOffice/ActualiteController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -15,18 +16,28 @@ router.post('/test2', Controller.test2)
 //path
 router.get('/sendFile/:filename', sendFile);
 
-
+/* .....................backoffice................. */
 //admin Auth
 router.post('/create', AdminAuthController.CreateAdmin)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 
 
-//actualite
+//actualite 
 router.post('/createActualite',verifyAdminToken,upload.single('image'),resizeImage(800, 600), ActualiteAdminController.createActualite)
 router.get('/getActualite',verifyAdminToken, ActualiteAdminController.getActualites)
 router.delete('/deleteActualite/:id',verifyAdminToken, ActualiteAdminController.deleteActualites)
 router.put('/updateActualite/:id',verifyAdminToken, ActualiteAdminController.updateActualite)
 router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.detailsActualite)
+
+
+
+
+
+//.........end backoffice.................
+
+
+/* ............fontOffice.................*/
+router.get('/listeDernierActu', ActualiteController.dernierActu)
 
 
 

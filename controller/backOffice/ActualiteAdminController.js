@@ -26,9 +26,9 @@ class ActualiteAdminController {
       actual.imageCover = req.file.filename;
 
       // Créer l'actualité dans la base de données
-      const createAct = await Actualite.create(actual);
+      await Actualite.create(actual);
 
-      return res.status(200).json({ actual: createAct });
+      return res.status(200).json({ message: "Actualite cree avec succes" });
     } catch (error) {
       console.error(error);
       deleteFile(req.file.filename); // Supprimer le fichier
@@ -41,12 +41,7 @@ class ActualiteAdminController {
     try {
       const actu = await Actualite.findAll();
 
-      const actualitesAvecUrl = actu.map(actualite => ({
-        ...actualite.dataValues,
-        imageUrl: `${BASE_URL(req)}${actualite.imageCover}`
-      }));
-
-      return res.status(200).json({ actualites: actualitesAvecUrl });
+      return res.status(200).json({ actualites: actu });
     } catch (error) {
       res.status(500).json({ message: error });
     }
