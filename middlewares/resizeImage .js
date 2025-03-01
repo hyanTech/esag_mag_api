@@ -33,7 +33,7 @@ const resizeImage = (width, height) => {
                 const originalFileName = path.basename(inputPath); // Extraire le nom du fichier original
                 deleteFile(originalFileName);
                 
-
+            console.log('Image recupere');
             // Mettre à jour le chemin de l'image dans req.file
             req.file.path = outputPath;
             req.file.filename = outputFileName; // Mettre à jour le nom du fichier

@@ -8,6 +8,7 @@ const ActualiteAdminController = require("../controller/backOffice/ActualiteAdmi
 const AdminAuthController = require("../controller/backOffice/AdminAuthController");
 const verifyAdminToken = require("../middlewares/AdminAuthMiddleware");
 const ActualiteController = require("../controller/frontOffice/ActualiteController");
+const BlogAdminController = require("../controller/backOffice/BlogAdminController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -26,8 +27,12 @@ router.post('/AdminLogin', AdminAuthController.AdminLogin)
 router.post('/createActualite',verifyAdminToken,upload.single('image'),resizeImage(800, 600), ActualiteAdminController.createActualite)
 router.get('/getActualite',verifyAdminToken, ActualiteAdminController.getActualites)
 router.delete('/deleteActualite/:id',verifyAdminToken, ActualiteAdminController.deleteActualites)
-router.put('/updateActualite/:id',verifyAdminToken, ActualiteAdminController.updateActualite)
+router.put('/updateActualite/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), ActualiteAdminController.updateActualite)
 router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.detailsActualite)
+
+
+//Blog
+router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
 
 
 
@@ -38,6 +43,9 @@ router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.details
 
 /* ............fontOffice.................*/
 router.get('/listeDernierActu', ActualiteController.dernierActu)
+router.get('/detailActu/:id', ActualiteController.detailActu)
+router.get('/AutreActu/:id', ActualiteController.AutreActu)
+router.get('/listeActu', ActualiteController.listeActu)
 
 
 

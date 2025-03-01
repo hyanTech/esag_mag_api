@@ -50,15 +50,39 @@ class ActualiteAdminController {
   static async updateActualite(req, res) {
     try {
       const { id } = req.params;
-      const updateAct = UpdateActualite.parse(req.body);
-      const actu = await Actualite.update(updateAct, { where: { id: id } });
-      return res
-        .status(200)
-        .json({ message: "Actualité modifiée avec succès", actu });
+      // Valider et parser les données de la requête avec Zod
+      const updateData = UpdateActualite.parse(req.body);
+  
+      // Si un fichier est fourni, on met à jour le champ imageCover
+      if (req.file) {
+        // Récupération de l'actualité existante pour supprimer l'ancien fichier
+        const actu = await Actualite.findByPk(id);
+        if (actu && actu.imageCover) {
+          console.log('ancien fichier supprime');
+          deleteFile(actu.imageCover);
+        }
+        updateData.imageCover = req.file.filename;
+      }
+  
+      // Mise à jour de l'actualité avec les données fournies
+      const [updatedCount, updatedRows] = await Actualite.update(updateData, {
+        where: { id },
+        returning: true, // Assurez-vous que votre SGBD le supporte
+      });
+  
+      if (updatedCount === 0) {
+        return res.status(404).json({ message: "Actualité non trouvée" });
+      }
+  
+      return res.status(200).json({
+        message: "Actualité modifiée avec succès",
+        actu: updatedRows[0],
+      });
     } catch (error) {
-      res.status(500).json({ message: error });
+      return res.status(500).json({ message: error.message });
     }
   }
+  
 
   static async deleteActualites(req, res) {
     try {
