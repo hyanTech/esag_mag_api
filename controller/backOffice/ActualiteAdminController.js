@@ -87,12 +87,21 @@ class ActualiteAdminController {
   static async deleteActualites(req, res) {
     try {
       const { id } = req.params;
+      const Actu = await Actualite.findByPk(id);
+      if (!Actu){
+        return res.status(400).json({message:"Actualite introuvable"})
+          
+      }
+
+      deleteFile(Actu.imageCover)
+      
       const delet = await Actualite.destroy({ where: { id: id } });
 
       return res
         .status(200)
         .json({ message: "Actualité supprimée avec succès", delet });
     } catch (error) {
+      console.log(error);
       res.status(500).json({ message: error });
     }
   }

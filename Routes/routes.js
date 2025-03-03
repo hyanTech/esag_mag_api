@@ -9,6 +9,7 @@ const AdminAuthController = require("../controller/backOffice/AdminAuthControlle
 const verifyAdminToken = require("../middlewares/AdminAuthMiddleware");
 const ActualiteController = require("../controller/frontOffice/ActualiteController");
 const BlogAdminController = require("../controller/backOffice/BlogAdminController");
+const BlogController = require("../controller/frontOffice/BlogController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -19,7 +20,8 @@ router.get('/sendFile/:filename', sendFile);
 
 /* .....................backoffice................. */
 //admin Auth
-router.post('/create', AdminAuthController.CreateAdmin)
+router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
+router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 
 
@@ -32,8 +34,10 @@ router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.details
 
 
 //Blog
+router.get('/getBlog',verifyAdminToken, BlogAdminController.getBlogs)
 router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
-
+router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
+router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
 
 
 
@@ -42,12 +46,15 @@ router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(80
 
 
 /* ............fontOffice.................*/
+
+//actualite
 router.get('/listeDernierActu', ActualiteController.dernierActu)
 router.get('/detailActu/:id', ActualiteController.detailActu)
 router.get('/AutreActu/:id', ActualiteController.AutreActu)
 router.get('/listeActu', ActualiteController.listeActu)
 
-
-
+//blog
+router.get('/listeBlog', BlogController.listeBlog)
+router.get('/detailBlog/:id', BlogController.detailBlog)
 
 module.exports = router;
