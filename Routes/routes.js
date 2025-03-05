@@ -10,6 +10,9 @@ const verifyAdminToken = require("../middlewares/AdminAuthMiddleware");
 const ActualiteController = require("../controller/frontOffice/ActualiteController");
 const BlogAdminController = require("../controller/backOffice/BlogAdminController");
 const BlogController = require("../controller/frontOffice/BlogController");
+const UserController = require("../controller/frontOffice/UserController");
+const EventAdminController = require("../controller/backOffice/EventsAdminController");
+const EventController = require("../controller/frontOffice/EventController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -23,6 +26,8 @@ router.get('/sendFile/:filename', sendFile);
 router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
 router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
+router.delete('/deleteAdmin/:id',verifyAdminToken, AdminAuthController.deleteAdmin)
+router.put('/updateAdmin/:id',verifyAdminToken, AdminAuthController.adminUpdate)
 
 
 //actualite 
@@ -39,6 +44,9 @@ router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(80
 router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
 router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
 
+//event
+router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(800, 600), EventAdminController.createEvent)
+
 
 
 
@@ -46,6 +54,15 @@ router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog
 
 
 /* ............fontOffice.................*/
+
+
+//user
+router.post('/createUser', UserController.UserCreateSendSms)
+router.post('/verifyOtp', UserController.verifyOtp)
+router.post('/completeAccount/:id', UserController.completeAccount)
+
+
+
 
 //actualite
 router.get('/listeDernierActu', ActualiteController.dernierActu)
@@ -56,5 +73,9 @@ router.get('/listeActu', ActualiteController.listeActu)
 //blog
 router.get('/listeBlog', BlogController.listeBlog)
 router.get('/detailBlog/:id', BlogController.detailBlog)
+
+
+//event
+router.post('/payTicket/:id', EventController.purchaseTickets)
 
 module.exports = router;

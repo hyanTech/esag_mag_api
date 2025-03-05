@@ -63,6 +63,8 @@ class ActualiteAdminController {
         }
         updateData.imageCover = req.file.filename;
       }
+
+      console.log('image non trouve')
   
       // Mise à jour de l'actualité avec les données fournies
       const [updatedCount, updatedRows] = await Actualite.update(updateData, {
@@ -101,7 +103,7 @@ class ActualiteAdminController {
         .status(200)
         .json({ message: "Actualité supprimée avec succès", delet });
     } catch (error) {
-      console.log(error);
+      console
       res.status(500).json({ message: error });
     }
   }

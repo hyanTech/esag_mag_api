@@ -1,7 +1,9 @@
+
 const { Admin } = require("../../models");
 const { loginAdminSchema } = require("../../Validation/admin/AdminLogin");
 const { createAdminSchema } = require("../../Validation/admin/createAdmin");
 const jwt = require("jsonwebtoken");
+const { UpdateAdminSchema } = require("../../Validation/admin/UpdateAdmin");
 
 class AdminAuthController {
   static CreateAdmin = async (req, res) => {
@@ -61,6 +63,29 @@ class AdminAuthController {
       return res.status(500).json({ message: error });
     }
   };
+
+  static async deleteAdmin(req,res){
+    try {
+      const {id} = req.params
+      const user = await Admin.destroy({where:{id}})
+      return res.status(200).json({message:"Admin deleted successfully",user})
+    } catch (error) {
+      console.log(error)
+      return res.status(500).json({message:"Admin not deleted successfully", error})
+    }
+  }
+
+  static async adminUpdate(req,res){
+    try {
+      const {id} = req.params
+      const updateAdmin = UpdateAdminSchema.parse(req.body)
+      await Admin.update({...updateAdmin},{where:{id}})
+      return res.status(200).json({message:"Admin updated successfully"})
+    } catch (error) {
+      console.log(error)
+      return res.status(400).json({message:"Admin not updated successfully", error})
+    }
+  }
 }
 
 module.exports = AdminAuthController;
