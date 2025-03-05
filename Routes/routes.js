@@ -34,10 +34,11 @@ router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.details
 
 
 //Blog
-router.get('/getBlog',verifyAdminToken, BlogAdminController.getBlogs)
+router.get('/getBlog', BlogAdminController.getBlogs)
 router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
 router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
 router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
+router.get('/detailsBlog/:id',verifyAdminToken, BlogAdminController.detailsBlog)
 
 
 
