@@ -30,14 +30,6 @@ module.exports = {
         type: Sequelize.FLOAT,
         allowNull: false,
       },
-      saleStartDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
-      saleEndDate: {
-        type: Sequelize.DATE,
-        allowNull: false,
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

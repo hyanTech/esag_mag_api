@@ -32,14 +32,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.FLOAT,
       allowNull: false
     },
-    saleStartDate: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    saleEndDate: {
-      type: DataTypes.DATE,
-      allowNull: false
-    }
   }, {
     sequelize,
     modelName: 'Ticket',

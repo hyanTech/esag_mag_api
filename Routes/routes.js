@@ -43,10 +43,11 @@ router.get('/getBlog',verifyAdminToken, BlogAdminController.getBlogs)
 router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
 router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
 router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
+router.get('/detailBlog/:id',verifyAdminToken, BlogAdminController.detailBlog)
 
 //event
 router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(800, 600), EventAdminController.createEvent)
-
+router.get('/eventListe',verifyAdminToken, EventAdminController.getEvent)
 
 
 
@@ -72,6 +73,7 @@ router.get('/listeActu', ActualiteController.listeActu)
 
 //blog
 router.get('/listeBlog', BlogController.listeBlog)
+router.get('/dernierBlog', BlogController.dernierBlog)
 router.get('/detailBlog/:id', BlogController.detailBlog)
 
 

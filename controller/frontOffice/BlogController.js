@@ -31,6 +31,23 @@ class BlogController {
         }
     }
 
+    static async dernierBlog(req, res){
+        try{
+            const dernierBlog = await Actualite.findAll({
+                where:{
+                    enabled: true
+                },
+                order: [['createdAt', 'DESC']],
+                limit: 4
+            });
+           return res.status(200).json({dernierBlog})
+        }catch(error){
+            console.error(error);
+            res.status(500).json({message: error.message})
+        }
+    }
+
+
 
 }
 
