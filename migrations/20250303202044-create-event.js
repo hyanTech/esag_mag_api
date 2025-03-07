@@ -27,10 +27,19 @@ module.exports = {
       imageCover: {
         type: Sequelize.STRING
       },
+      saleStartDate:{
+        type:Sequelize.DATE,
+        allowNull:true
+      },
+      saleEndDate:{
+        type:Sequelize.DATE,
+        allowNull:true
+      },
       isPaid: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
       },
+
       enabled: {
         type: Sequelize.BOOLEAN,
         defaultValue: true

@@ -9,32 +9,41 @@ class UserController{
         if(!numero){
             return res.status(400).json({ message: "Numéro de téléphone est requis" });
         }
-        try{
+        try {
             const user = await User.findOne({ where: { numero: numero } });
-            if(!user){
-                const newUser = await User.create({
-                    numero: numero,
+            if (!user) {
+              const newUser = await User.create({
+                numero: numero,
+              });
+              await Otp.create({
+                code: Math.floor(Math.random() * 9000) + 1000,
+                UserId: newUser.id,
+              });
+              
+              return res.status(200).json({ message: "user created", userId: newUser.id });
+            }
+          
+            if (user) {
+              // Recherche d'une entrée OTP existante pour cet utilisateur
+              const otpEntry = await Otp.findOne({ where: { UserId: user.id } });
+              if (otpEntry) {
+                // Si une entrée existe, on la met à jour
+                await otpEntry.update({ code: Math.floor(Math.random() * 9000) + 1000 });
+              } else {
+                // Sinon, on crée une nouvelle entrée OTP
+                await Otp.create({
+                  code: Math.floor(Math.random() * 9000) + 1000,
+                  UserId: user.id,
                 });
-                const otp = await Otp.create({
-                    code: Math.floor(Math.random() * 100000),
-                    UserId: newUser.id
-                });
-                return res.status(200).json({ message: "user created", userId: newUser.id });
-            }
+              }
 
-            if (user.verified) {
-                return res.status(400).json({ message: "user already exists" });
+              return res.status(200).json({ message: "user created", userId: user.id, });
             }
-
-            if (!user.verified) {
-                const otp = await Otp.update({code: Math.floor(Math.random() * 100000)}, {where: {UserId: user.id}});
-                return res.status(200).json({ message: "user created", otp: otp });
-            }
-            
-        }catch(err){
+          } catch (err) {
             console.log(err);
             return res.status(500).json({ message: "error", error: err });
-        }
+          }
+          
         
     }
 
@@ -56,7 +65,6 @@ class UserController{
             const diffInMinutes = (now - otpCreatedAt) / (1000 * 60);
     
             if (diffInMinutes > 5) {
-                await Otp.destroy({ where: { userId: id } }); // Supprimer l'OTP expiré
                 return res.status(400).json({ message: "Code expiré, veuillez renvoyez un autre OTP" });
             }
     
@@ -67,8 +75,10 @@ class UserController{
             // Mettre à jour l'utilisateur comme vérifié
             await User.update({ verified: true }, { where: { id: id } });
             await Otp.destroy({ where: { userId: id } });
+
+            const user = await User.findOne({ where: { id: id } });
     
-            return res.status(200).json({ message: "Utilisateur vérifié" });
+            return res.status(200).json({ message: "Utilisateur vérifié", userId:id, user: user });
         } catch (err) {
             console.log(err);
             return res.status(500).json({ message: "Erreur serveur", error: err });
@@ -102,7 +112,9 @@ class UserController{
             UserValidate.profile = profile;
             
             await User.update(UserValidate, {where: {id: id}});
-            return res.status(200).json({ message: "Profil mis à jour", user });
+            const updatedUser = await User.findOne({ where: { id } });
+            
+            return res.status(200).json({ message: "Profil mis à jour", updatedUser });
 
         } catch (error) {
             console.log(error);

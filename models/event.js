@@ -21,6 +21,14 @@ module.exports = (sequelize, DataTypes) => {
     lieu:DataTypes.STRING,
     date:DataTypes.DATE,
     imageCover: DataTypes.STRING,
+    saleStartDate:{
+      type: DataTypes.DATE,
+      allowNull:true
+    },
+    saleEndDate:{
+      type: DataTypes.DATE,
+      allowNull:true
+    },
     isPaid:{
       type: DataTypes.BOOLEAN,
       defaultValue: false

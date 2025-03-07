@@ -1,33 +1,36 @@
 "use strict";
-/** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Tickets", {
+    await queryInterface.createTable("Suggestions", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      eventId: {
-        type: Sequelize.INTEGER,
-        references: { model: "Events", key: "id" },
-        onDelete: "CASCADE",
-        allowNull: false,
-      },
-      typeTicket: {
+      nom: {
         type: Sequelize.STRING,
-      },
-      qte: {
-        type: Sequelize.INTEGER,
         allowNull: false,
       },
-      available: {
-        type: Sequelize.INTEGER,
+      email: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
-      price: {
-        type: Sequelize.FLOAT,
+      object: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      categorie: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      message: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+      },
+      type: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       createdAt: {
@@ -40,7 +43,8 @@ module.exports = {
       },
     });
   },
+
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Tickets");
+    await queryInterface.dropTable("Suggestions");
   },
 };

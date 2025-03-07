@@ -13,6 +13,8 @@ const BlogController = require("../controller/frontOffice/BlogController");
 const UserController = require("../controller/frontOffice/UserController");
 const EventAdminController = require("../controller/backOffice/EventsAdminController");
 const EventController = require("../controller/frontOffice/EventController");
+const SuggestionController = require ("../controller/frontOffice/SuggestionController");
+const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController")
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -43,11 +45,15 @@ router.get('/getBlog', BlogAdminController.getBlogs)
 router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
 router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
 router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
-router.get('/detailsBlog/:id',verifyAdminToken, BlogAdminController.detailsBlog)
+router.get('/detailsBlog/:id',verifyAdminToken, BlogAdminController.detailBlog)
 
 //event
 router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(800, 600), EventAdminController.createEvent)
+router.get('/eventListe',verifyAdminToken, EventAdminController.getEvent)
 
+//sugestion
+router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSuggestions)
+router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.detailSuggestion)
 
 
 
@@ -73,10 +79,21 @@ router.get('/listeActu', ActualiteController.listeActu)
 
 //blog
 router.get('/listeBlog', BlogController.listeBlog)
+router.get('/dernierBlog', BlogController.dernierBlog)
 router.get('/detailBlog/:id', BlogController.detailBlog)
 
 
 //event
 router.post('/payTicket/:id', EventController.purchaseTickets)
+
+
+//sugestion
+router.post('/createSuggestion', SuggestionController.createSuggestion)
+
+
+//..........end fontOffice..................
+
+
+
 
 module.exports = router;

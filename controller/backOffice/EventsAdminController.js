@@ -4,6 +4,7 @@ const createEventSchema = require("../../Validation/events/ValidateEventShema");
 
 
 class EventAdminController {
+
   static async createEvent(req, res) {
     try {
       // Vérifier la présence de l'image
@@ -13,7 +14,7 @@ class EventAdminController {
 
       // Validation des données de l'événement avec le schéma
       const eventData = await createEventSchema.parseAsync(req.body);
-
+      console.log(eventData.tickets);
       // Ajout de l'image à l'objet événement
       eventData.imageCover = req.file.filename;
 
@@ -23,6 +24,7 @@ class EventAdminController {
       // Si l'événement est payant, gérer la création des tickets associés
       if (eventData.isPaid === true) {
         if (!eventData.tickets || eventData.tickets.length === 0) {
+          deleteFile(req.file.filename);
           return res
             .status(400)
             .json({
@@ -53,6 +55,18 @@ class EventAdminController {
     }
   }
 
+  static async getEvent(req, res) {
+    try {
+      const event = await Event.findAll();
+      
+      return res.status(200).json({event});
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "Erreur serveur", error: error.message });
+    }
+  }
 
   
 

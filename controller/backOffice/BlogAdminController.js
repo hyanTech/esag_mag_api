@@ -99,19 +99,21 @@ class BlogAdminController {
       }
   }
 
-  static async detailsBlog(req, res) {
+  static detailBlog = async (req, res) => {
     try {
-      const { id } = req.params;
-      const blog = await Blog.findByPk(id);
-      if (!blog) {
-        return res.status(404).json({ message: "blog not found" });
-      }
-      return res.status(200).json({ blog });
+        const { id } = req.params;
+        const blog = await Blog.findByPk(id, { where: { enabled: true } });
+        if (!blog) {
+            return res.status(404).json({ message: "Blog introuvable" });
+        }
+        return res.status(200).json({ blog });
     } catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: error });
+        console.error(error);
+        return res.status(500).json({ message: error.message });
     }
-  }
+}
+
+
 }
 
 module.exports = BlogAdminController;
