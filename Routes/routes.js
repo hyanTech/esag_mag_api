@@ -78,6 +78,7 @@ router.get('/detailBlog/:id', BlogController.detailBlog)
 
 
 //event
-router.post('/payTicket/:id', EventController.purchaseTickets)
+router.post('/payTicket/:id', EventController.purchaseTickets),
+router.get('/getRecentEvents', EventController.getRecentEvents)
 
 module.exports = router;

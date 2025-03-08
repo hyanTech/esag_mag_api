@@ -121,6 +121,7 @@ class UserController{
             return res.status(500).json({ message: "Erreur serveur", error: error });
         }
     }
+
 }
 
 module.exports = UserController;
