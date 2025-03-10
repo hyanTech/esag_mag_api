@@ -14,7 +14,8 @@ const UserController = require("../controller/frontOffice/UserController");
 const EventAdminController = require("../controller/backOffice/EventsAdminController");
 const EventController = require("../controller/frontOffice/EventController");
 const SuggestionController = require ("../controller/frontOffice/SuggestionController");
-const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController")
+const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController");
+const AdminUserController = require("../controller/backOffice/AdminUserController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -56,6 +57,9 @@ router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSugg
 router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.detailSuggestion)
 
 
+// user 
+router.get('/getUsers',verifyAdminToken, AdminUserController.getUsers)
+router.put('/updateUser/:id',verifyAdminToken, AdminUserController.UserUpdate)
 
 //.........end backoffice.................
 
@@ -67,6 +71,7 @@ router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.d
 router.post('/createUser', UserController.UserCreateSendSms)
 router.post('/verifyOtp', UserController.verifyOtp)
 router.post('/completeAccount/:id', UserController.completeAccount)
+
 
 
 
