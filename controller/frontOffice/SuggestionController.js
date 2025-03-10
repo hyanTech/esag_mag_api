@@ -6,6 +6,7 @@ class SuggestionController {
   static async createSuggestion(req, res) {
     try {
       // Valider les données entrantes
+        console.log("Requête reçue :", req.body)
       const validationResult = createSuggestionSchema.safeParse(req.body);
       if (!validationResult.success) {
         return res.status(400).json({ errors: validationResult.error.errors });
