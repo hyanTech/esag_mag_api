@@ -16,6 +16,7 @@ const EventController = require("../controller/frontOffice/EventController");
 const SuggestionController = require ("../controller/frontOffice/SuggestionController");
 const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController");
 const AdminAgentController = require("../controller/backOffice/AdminAgentController");
+const AdminUserController = require("../controller/backOffice/AdminUserController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -26,7 +27,7 @@ router.get('/sendFile/:filename', sendFile);
 
 /* .....................backoffice................. */
 //admin Auth
-router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
+router.post('/createAdmin', AdminAuthController.CreateAdmin)
 router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 router.delete('/deleteAdmin/:id',verifyAdminToken, AdminAuthController.deleteAdmin)
@@ -57,6 +58,9 @@ router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSugg
 router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.detailSuggestion)
 
 
+// user 
+router.get('/getUsers',verifyAdminToken, AdminUserController.getUsers)
+router.put('/updateUser/:id',verifyAdminToken, AdminUserController.UserUpdate)
 
 //agent
 /* router.get('/getAgents',verifyAdminToken, AdminAgentController.getAgents) */
@@ -74,6 +78,7 @@ router.post('/createAgent/:eventId',verifyAdminToken, AdminAgentController.creat
 router.post('/createUser', UserController.UserCreateSendSms)
 router.post('/verifyOtp', UserController.verifyOtp)
 router.post('/completeAccount/:id', UserController.completeAccount)
+
 
 
 
