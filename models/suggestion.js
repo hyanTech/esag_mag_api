@@ -13,14 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       nom: {
         type: DataTypes.STRING,
         allowNull: true,
+        defaultValue: ''
       },
       email: {
         type: DataTypes.STRING,
         allowNull: true,
-        validate: {
-          isEmail: true,
-        },
+        defaultValue: ''
       },
+      
       object: {
         type: DataTypes.STRING,
         allowNull: false,
