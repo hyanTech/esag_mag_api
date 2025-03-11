@@ -1,5 +1,5 @@
 const { deleteFile } = require("../../functions/deleteFile");
-const { Blog } = require("../../models");
+const { Blog } = require("../../Models");
 const createBlogSchema = require("../../Validation/blog/createBlogSchema");
 const updateBlog = require("../../Validation/blog/UpdateBlog");
 
@@ -99,20 +99,20 @@ class BlogAdminController {
       }
   }
 
-
-  static async detailBlog(req, res) {
+  static detailBlog = async (req, res) => {
     try {
-      const { id } = req.params;
-      const blog = await Blog.findByPk(id);
-      if (!blog) {
-        return res.status(400).json({ message: "blog introuvable" });
-      }
-      return res.status(200).json({ message: "blog trouvée", blog });
+        const { id } = req.params;
+        const blog = await Blog.findByPk(id, { where: { enabled: true } });
+        if (!blog) {
+            return res.status(404).json({ message: "Blog introuvable" });
+        }
+        return res.status(200).json({ blog });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: error });
+        console.error(error);
+        return res.status(500).json({ message: error.message });
     }
-  }
+}
+
 
 }
 

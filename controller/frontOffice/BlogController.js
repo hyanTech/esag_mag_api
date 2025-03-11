@@ -1,4 +1,4 @@
-const { Blog } = require("../../models");
+const { Blog } = require("../../Models");
 
 class BlogController {
 
@@ -33,11 +33,12 @@ class BlogController {
 
     static async dernierBlog(req, res){
         try{
-            const dernierBlog = await Actualite.findAll({
+            const dernierBlog = await Blog.findAll({
                 where:{
                     enabled: true
                 },
                 order: [['createdAt', 'DESC']],
+                attributes: ['id', 'titre', 'sous_titre', 'imageCover', 'createdAt'],
                 limit: 4
             });
            return res.status(200).json({dernierBlog})

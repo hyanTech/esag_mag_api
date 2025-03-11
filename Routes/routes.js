@@ -13,6 +13,9 @@ const BlogController = require("../controller/frontOffice/BlogController");
 const UserController = require("../controller/frontOffice/UserController");
 const EventAdminController = require("../controller/backOffice/EventsAdminController");
 const EventController = require("../controller/frontOffice/EventController");
+const SuggestionController = require ("../controller/frontOffice/SuggestionController");
+const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController");
+const AdminAgentController = require("../controller/backOffice/AdminAgentController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -39,15 +42,25 @@ router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.details
 
 
 //Blog
-router.get('/getBlog',verifyAdminToken, BlogAdminController.getBlogs)
+router.get('/getBlog', BlogAdminController.getBlogs)
 router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
 router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
 router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
-router.get('/detailBlog/:id',verifyAdminToken, BlogAdminController.detailBlog)
+router.get('/detailsBlog/:id',verifyAdminToken, BlogAdminController.detailBlog)
 
 //event
 router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(800, 600), EventAdminController.createEvent)
 router.get('/eventListe',verifyAdminToken, EventAdminController.getEvent)
+
+//sugestion
+router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSuggestions)
+router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.detailSuggestion)
+
+
+
+//agent
+/* router.get('/getAgents',verifyAdminToken, AdminAgentController.getAgents) */
+router.post('/createAgent/:eventId',verifyAdminToken, AdminAgentController.createAgent)
 
 
 
@@ -78,6 +91,19 @@ router.get('/detailBlog/:id', BlogController.detailBlog)
 
 
 //event
-router.post('/payTicket/:id', EventController.purchaseTickets)
+router.post('/payTicket/:id', EventController.purchaseTickets),
+router.get('/getRecentEvents', EventController.getRecentEvents)
+router.get('/listeEvent', EventController.getEvent)
+router.get('/getEventById/:id', EventController.getEventById)
+router.get('/ticketDetail/:id', EventController.TicketDetail)
+
+//sugestion
+router.post('/createSuggestion', SuggestionController.createSuggestion)
+
+
+//..........end fontOffice..................
+
+
+
 
 module.exports = router;

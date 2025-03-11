@@ -1,4 +1,4 @@
-const {Actualite} = require('../../models')
+const {Actualite} = require('../../Models')
 const { Op } = require("sequelize");
 
 class ActualiteController{

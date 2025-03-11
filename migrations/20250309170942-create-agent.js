@@ -2,21 +2,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('TicketCodes', {
+    await queryInterface.createTable('Agents', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      ticketName: {
-        type: Sequelize.STRING,
-        allowNull: true,
-      },
-      ticketCode: {
+      name: {
         type: Sequelize.STRING
       },
-      EventId: {
+      eventId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
@@ -25,14 +21,8 @@ module.exports = {
         },
         onDelete: "CASCADE", // Supprime les OTPs si l'utilisateur est supprimé
       },
-      TicketId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "Tickets", // Assurez-vous que le nom correspond exactement à la table des utilisateurs
-          key: "id",
-        },
-        onDelete: "CASCADE", // Supprime les OTPs si l'utilisateur est supprimé
+      codeAgent: {
+        type: Sequelize.STRING
       },
       enabled: {
         type: Sequelize.BOOLEAN,
@@ -49,6 +39,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('TicketCodes');
+    await queryInterface.dropTable('Agents');
   }
 };

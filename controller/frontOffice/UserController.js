@@ -1,5 +1,5 @@
 const { generateUniqueProfileImage } = require("../../functions/imageGenerator");
-const {User,Otp} = require("../../models");
+const {User,Otp} = require("../../Models");
 const { createUserSchema } = require("../../Validation/user/UserValidate");
 
 class UserController{
@@ -121,6 +121,7 @@ class UserController{
             return res.status(500).json({ message: "Erreur serveur", error: error });
         }
     }
+
 }
 
 module.exports = UserController;
