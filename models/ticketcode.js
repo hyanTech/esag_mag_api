@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   TicketCode.init({
-    ticketName: DataTypes.STRING,
+    ticketName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     ticketCode: DataTypes.STRING,
     EventId: {
       type: DataTypes.INTEGER,

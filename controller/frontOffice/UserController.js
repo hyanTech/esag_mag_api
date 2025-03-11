@@ -1,5 +1,5 @@
 const { generateUniqueProfileImage } = require("../../functions/imageGenerator");
-const {User,Otp} = require("../../models");
+const {User,Otp} = require("../../Models");
 const { createUserSchema } = require("../../Validation/user/UserValidate");
 
 class UserController{

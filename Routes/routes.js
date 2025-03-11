@@ -14,7 +14,8 @@ const UserController = require("../controller/frontOffice/UserController");
 const EventAdminController = require("../controller/backOffice/EventsAdminController");
 const EventController = require("../controller/frontOffice/EventController");
 const SuggestionController = require ("../controller/frontOffice/SuggestionController");
-const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController")
+const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController");
+const AdminAgentController = require("../controller/backOffice/AdminAgentController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -57,6 +58,12 @@ router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.d
 
 
 
+//agent
+/* router.get('/getAgents',verifyAdminToken, AdminAgentController.getAgents) */
+router.post('/createAgent/:eventId',verifyAdminToken, AdminAgentController.createAgent)
+
+
+
 //.........end backoffice.................
 
 
@@ -86,7 +93,9 @@ router.get('/detailBlog/:id', BlogController.detailBlog)
 //event
 router.post('/payTicket/:id', EventController.purchaseTickets),
 router.get('/getRecentEvents', EventController.getRecentEvents)
-
+router.get('/listeEvent', EventController.getEvent)
+router.get('/getEventById/:id', EventController.getEventById)
+router.get('/ticketDetail/:id', EventController.TicketDetail)
 
 //sugestion
 router.post('/createSuggestion', SuggestionController.createSuggestion)

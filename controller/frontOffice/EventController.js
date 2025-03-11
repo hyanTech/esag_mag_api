@@ -5,7 +5,6 @@ const { sequelize } = require("../../models");
 const { Event, Ticket, TicketCode } = require("../../models");
 const { generateTicketPDF } = require("../../functions/generateTicketPDF");
 
-
 class EventController {
   static async purchaseTickets(req, res) {
     const { id } = req.params;
@@ -15,29 +14,21 @@ class EventController {
       const ticket = await Ticket.findOne({
         where: {
           id: id,
-          saleStartDate: { [Op.lte]: new Date() },
-          saleEndDate: { [Op.gte]: new Date() },
         },
-        include: {
+        include: [{
           model: Event,
-          attributes: [
-            "id",
-            "titre",
-            "sous_titre",
-            "details",
-            "lieu",
-            "date",
-            "isPaid",
-          ],
-        },
+          where: {
+            saleStartDate: { [Op.lte]: new Date() },
+            saleEndDate: { [Op.gte]: new Date() },
+          },
+          attributes: ["id", "titre", "sous_titre", "details", "lieu", "date", "isPaid"],
+        }],
       });
-
+      console.log(ticket, quantity, id);
       if (!ticket) {
-        return res
-          .status(400)
-          .json({
-            message: "Ticket non disponible ou période de vente expirée",
-          });
+        return res.status(400).json({
+          message: "Ticket non disponible ou période de vente expirée",
+        });
       }
 
       // Vérifier la disponibilité
@@ -66,24 +57,26 @@ class EventController {
         for (let i = 0; i < quantity; i++) {
           const ticketCode = uuidv4(); // Code unique pour le ticket
 
-          // Génération du QR Code en data URL
-          const qrDataUrl = await QRCode.toDataURL(ticketCode);
+  
+          // Sauvegarde en base
 
-          // Génération du PDF
-          const { filename } = await generateTicketPDF({
-            ticketCode,
-            qrDataUrl,
-            eventName: ticket.Event.titre,
-            ticketType: ticket.typeTicket,
+          const EventTicket = {
+            EventId: ticket.Event.id,
+            TicketId: ticket.id,
+            enabled: true,
             lieu: ticket.Event.lieu,
             date: ticket.Event.date,
-            // Vous pouvez ajouter d'autres informations
-          });
-          pdfName.push(filename);
-          // Sauvegarde en base
+            code: ticketCode,
+          
+          };
+
+          pdfName.push(EventTicket);
+
+          //console.log(EventTicket);
+
           await TicketCode.create(
             {
-              ticketName: filename,
+              /* ticketName: filename, */
               ticketCode,
               EventId: ticket.Event.id,
               TicketId: ticket.id,
@@ -101,7 +94,7 @@ class EventController {
 
         return res
           .status(200)
-          .json({ message: "Achat réussi", tickets: pdfName });
+          .json({ message: "Achat réussi", tickets: pdfName, event: ticket.Event });
       } catch (err) {
         await transaction.rollback();
         throw err;
@@ -114,7 +107,6 @@ class EventController {
     }
   }
 
-
   static async getRecentEvents(req, res) {
     try {
       const today = new Date();
@@ -126,10 +118,70 @@ class EventController {
           },
         },
         order: [["date", "DESC"]],
-        attributes: ['id', 'titre', 'sous_titre', 'imageCover','date', 'lieu', 'isPaid'],
+        attributes: [
+          "id",
+          "titre",
+          "sous_titre",
+          "imageCover",
+          "date",
+          "lieu",
+          "isPaid",
+        ],
         limit: 4,
       });
       return res.status(200).json({ events });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
+  static async getEvent(req, res) {
+    try {
+      const today = new Date();
+      const events = await Event.findAll({
+        where: {
+          enabled: true,
+          date: {
+            [Op.gte]: today, // récupère les événements dont la date est supérieure ou égale à aujourd'hui
+          },
+        },
+        order: [["date", "DESC"]],
+        attributes: [
+          "id",
+          "titre",
+          "sous_titre",
+          "imageCover",
+          "date",
+          "lieu",
+          "isPaid",
+        ],
+      });
+      return res.status(200).json({ events });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
+  static async getEventById(req, res) {
+    try {
+      const { id } = req.params;
+      const event = await Event.findByPk(id, {
+        include: [{ model: Ticket }],
+      });
+      return res.status(200).json({ event });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
+  static async TicketDetail(req, res) {
+    try {
+      const { id } = req.params;
+      const ticket = await Ticket.findByPk(id);
+      return res.status(200).json({ ticket });
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: error.message });

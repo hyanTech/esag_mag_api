@@ -1,4 +1,4 @@
-const { Blog } = require("../../models");
+const { Blog } = require("../../Models");
 
 class BlogController {
 

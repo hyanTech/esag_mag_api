@@ -14,7 +14,7 @@ class SuggestionController {
       // Créer une nouvelle suggestion dans la base de données
       const newSuggestion = await Suggestion.create(validationResult.data);
 
-      return res.status(201).json(newSuggestion);
+      return res.status(200).json({newSuggestion});
     } catch (error) {
       console.error('Erreur lors de la création de la suggestion:', error);
       return res.status(500).json({ message: 'Erreur serveur' });

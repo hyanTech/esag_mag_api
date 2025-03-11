@@ -2,7 +2,7 @@ const createActualite = require("../../Validation/AcatualiteValidate");
 const UpdateActualite = require("../../Validation/UpadateActualite");
 const { deleteFile } = require("../../functions/deleteFile");
 const { BASE_URL } = require("../../functions/fileUrl");
-const { Actualite } = require("../../models");
+const {Actualite} = require("../../Models");
 
 class ActualiteAdminController {
   static async createActualite(req, res) {

@@ -1,5 +1,5 @@
 const { deleteFile } = require("../../functions/deleteFile");
-const { Event, Ticket } = require("../../models");
+const { Event, Ticket } = require("../../Models");
 const createEventSchema = require("../../Validation/events/ValidateEventShema");
 
 
