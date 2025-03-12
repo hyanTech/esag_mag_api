@@ -1,11 +1,12 @@
 const { v4: uuidv4 } = require("uuid");
 const QRCode = require("qrcode");
 const { Op } = require("sequelize");
-const { sequelize } = require("../../models");
-const { Event, Ticket, TicketCode } = require("../../models");
+const { sequelize } = require("../../Models");
+const { Event, Ticket, TicketCode } = require("../../Models");
 const { generateTicketPDF } = require("../../functions/generateTicketPDF");
 
 class EventController {
+
   static async purchaseTickets(req, res) {
     const { id } = req.params;
     const { quantity } = req.body;
