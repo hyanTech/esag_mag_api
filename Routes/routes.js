@@ -27,7 +27,7 @@ router.get('/sendFile/:filename', sendFile);
 
 /* .....................backoffice................. */
 //admin Auth
-router.post('/createAdmin', AdminAuthController.CreateAdmin)
+router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
 router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 router.delete('/deleteAdmin/:id',verifyAdminToken, AdminAuthController.deleteAdmin)
@@ -52,6 +52,7 @@ router.get('/detailsBlog/:id',verifyAdminToken, BlogAdminController.detailBlog)
 //event
 router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(800, 600), EventAdminController.createEvent)
 router.get('/eventListe',verifyAdminToken, EventAdminController.getEvent)
+router.get('/eventListeAgent',verifyAdminToken, EventAdminController.getEventAgent)
 
 //sugestion
 router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSuggestions)
@@ -63,8 +64,12 @@ router.get('/getUsers',verifyAdminToken, AdminUserController.getUsers)
 router.put('/updateUser/:id',verifyAdminToken, AdminUserController.UserUpdate)
 
 //agent
-/* router.get('/getAgents',verifyAdminToken, AdminAgentController.getAgents) */
+router.get('/getAgents',verifyAdminToken, AdminAgentController.getAgents)
 router.post('/createAgent/:eventId',verifyAdminToken, AdminAgentController.createAgent)
+router.delete('/deleteAgent/:id',verifyAdminToken,AdminAgentController.deleteAgent)
+router.post('/AgentConnexion',AdminAgentController.AgentConnexion)
+router.post('/logoutAgent',AdminAgentController.LogoutAgent)
+router.get('/checkSession',AdminAgentController.checkSession)
 
 
 

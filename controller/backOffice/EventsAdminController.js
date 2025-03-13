@@ -1,6 +1,8 @@
+
 const { deleteFile } = require("../../functions/deleteFile");
 const { Event, Ticket } = require("../../Models");
 const createEventSchema = require("../../Validation/events/ValidateEventShema");
+const { Op } = require("sequelize");
 
 
 class EventAdminController {
@@ -58,6 +60,25 @@ class EventAdminController {
   static async getEvent(req, res) {
     try {
       const event = await Event.findAll();
+      
+      return res.status(200).json({event});
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "Erreur serveur", error: error.message });
+    }
+  }
+
+
+  static async getEventAgent(req, res) {
+    try {
+      const today = new Date();
+      const event = await Event.findAll({where: {enabled: true},
+        date: {
+          [Op.gte]: today, // récupère les événements dont la date est supérieure ou égale à aujourd'hui
+        },
+      });
       
       return res.status(200).json({event});
     } catch (error) {
