@@ -17,6 +17,8 @@ const SuggestionController = require ("../controller/frontOffice/SuggestionContr
 const SuggestionAdminController =require ("../controller/backOffice/SuggestionAdminController");
 const AdminAgentController = require("../controller/backOffice/AdminAgentController");
 const AdminUserController = require("../controller/backOffice/AdminUserController");
+const AdminSondageController = require("../controller/backOffice/AdminSondageController");
+const PollController = require("../controller/frontOffice/PollController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -53,6 +55,7 @@ router.get('/detailsBlog/:id',verifyAdminToken, BlogAdminController.detailBlog)
 router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(800, 600), EventAdminController.createEvent)
 router.get('/eventListe',verifyAdminToken, EventAdminController.getEvent)
 router.get('/eventListeAgent',verifyAdminToken, EventAdminController.getEventAgent)
+router.delete('/deleteEvent/:id',verifyAdminToken, EventAdminController.deleteEvent)
 
 //sugestion
 router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSuggestions)
@@ -70,6 +73,10 @@ router.delete('/deleteAgent/:id',verifyAdminToken,AdminAgentController.deleteAge
 router.post('/AgentConnexion',AdminAgentController.AgentConnexion)
 router.post('/logoutAgent',AdminAgentController.LogoutAgent)
 router.get('/checkSession',AdminAgentController.checkSession)
+
+
+//poll
+router.post('/createPoll',verifyAdminToken, AdminSondageController.createPoll)
 
 
 
@@ -110,6 +117,10 @@ router.get('/ticketDetail/:id', EventController.TicketDetail)
 //sugestion
 router.post('/createSuggestion', SuggestionController.createSuggestion)
 
+
+//poll
+router.get('/getPoll/:id', PollController.getPollOne)
+router.get('/getPollListe', PollController.getPollListe)
 
 //..........end fontOffice..................
 
