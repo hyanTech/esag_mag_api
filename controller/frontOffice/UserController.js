@@ -22,7 +22,7 @@ class UserController{
                 code:codeOtp ,
                 UserId: newUser.id,
               });
-              
+              console.log("otp", codeOtp)
               /* const message = `Votre code de verification est ${codeOtp}`
               const smsResponse = await sendSms(numero, message);
 
@@ -41,6 +41,7 @@ class UserController{
                 const smsResponse = await sendSms(numero, message);
                 console.log ("Réponse de l'API SMS:", smsResponse); */
                 await otpEntry.update({ code: codeOtp });
+                console.log("otp", codeOtp)
               } else {
                 // Sinon, on crée une nouvelle entrée OTP
                 const codeOtp = Math.floor(Math.random() * 9000) + 1000
@@ -50,6 +51,7 @@ class UserController{
                   code: codeOtp,
                   UserId: user.id,
                 });
+                console.log("otp", codeOtp)
               }
 
               return res.status(200).json({ message: "user created", userId: user.id, });
