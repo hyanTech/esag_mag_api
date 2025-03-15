@@ -1,4 +1,4 @@
-const { Suggestion } = require('../../models');
+const { Suggestion } = require('../../Models');
 const {createSuggestionSchema} = require ("../../Validation/Suggestion/SuggestionsValidate");
 
 

@@ -29,7 +29,7 @@ router.get('/sendFile/:filename', sendFile);
 
 /* .....................backoffice................. */
 //admin Auth
-router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
+router.post('/createAdmin', AdminAuthController.CreateAdmin)
 router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 router.delete('/deleteAdmin/:id',verifyAdminToken, AdminAuthController.deleteAdmin)
