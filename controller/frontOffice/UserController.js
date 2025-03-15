@@ -1,4 +1,5 @@
 const { generateUniqueProfileImage } = require("../../functions/imageGenerator");
+const { sendSms } = require("../../functions/SendSms");
 const {User,Otp} = require("../../Models");
 const { createUserSchema } = require("../../Validation/user/UserValidate");
 
@@ -11,15 +12,22 @@ class UserController{
         }
         try {
             const user = await User.findOne({ where: { numero: numero } });
+            
             if (!user) {
+              const codeOtp = Math.floor(Math.random() * 9000) + 1000
               const newUser = await User.create({
                 numero: numero,
               });
               await Otp.create({
-                code: Math.floor(Math.random() * 9000) + 1000,
+                code:codeOtp ,
                 UserId: newUser.id,
               });
-              
+              console.log("otp", codeOtp)
+              /* const message = `Votre code de verification est ${codeOtp}`
+              const smsResponse = await sendSms(numero, message);
+
+              console.log("Réponse de l'API SMS:", smsResponse); */
+
               return res.status(200).json({ message: "user created", userId: newUser.id });
             }
           
@@ -28,13 +36,22 @@ class UserController{
               const otpEntry = await Otp.findOne({ where: { UserId: user.id } });
               if (otpEntry) {
                 // Si une entrée existe, on la met à jour
-                await otpEntry.update({ code: Math.floor(Math.random() * 9000) + 1000 });
+                const codeOtp = Math.floor(Math.random() * 9000) + 1000
+               /*  const message = `Votre code de verification est ${codeOtp}`
+                const smsResponse = await sendSms(numero, message);
+                console.log ("Réponse de l'API SMS:", smsResponse); */
+                await otpEntry.update({ code: codeOtp });
+                console.log("otp", codeOtp)
               } else {
                 // Sinon, on crée une nouvelle entrée OTP
+                const codeOtp = Math.floor(Math.random() * 9000) + 1000
+                /* const message = `Votre code de verification est ${codeOtp}`
+                const smsResponse = await sendSms(numero, message); */
                 await Otp.create({
-                  code: Math.floor(Math.random() * 9000) + 1000,
+                  code: codeOtp,
                   UserId: user.id,
                 });
+                console.log("otp", codeOtp)
               }
 
               return res.status(200).json({ message: "user created", userId: user.id, });
