@@ -13,6 +13,7 @@ const createEventSchema = z.object({
   titre: z.string().min(1),
   sous_titre: z.string(),
   details: z.string().min(1),
+  description_mobile:z.string().min(1),
   lieu: z.string().min(1),
   date: z.preprocess((arg) => {
     if (typeof arg === 'string') {

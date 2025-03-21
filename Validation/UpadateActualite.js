@@ -4,5 +4,6 @@ const UpdateActualite = z.object({
     description: z.string().min(1).optional(),
     sous_titre: z.string().optional(),
     enabled:z.boolean().optional(),
+    description_mobile:z.string().min(1).optional(),
 });
 module.exports = UpdateActualite;

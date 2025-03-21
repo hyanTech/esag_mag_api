@@ -19,6 +19,9 @@ const AdminAgentController = require("../controller/backOffice/AdminAgentControl
 const AdminUserController = require("../controller/backOffice/AdminUserController");
 const AdminSondageController = require("../controller/backOffice/AdminSondageController");
 const PollController = require("../controller/frontOffice/PollController");
+const LikeBlogController = require("../controller/frontOffice/LikeBlogController");
+const CommentBlogController = require("../controller/frontOffice/CommentBlogController");
+const FavorisController = require("../controller/frontOffice/FavorisController");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -29,7 +32,7 @@ router.get('/sendFile/:filename', sendFile);
 
 /* .....................backoffice................. */
 //admin Auth
-router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
+router.post('/createAdmin', AdminAuthController.CreateAdmin)
 router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 router.delete('/deleteAdmin/:id',verifyAdminToken, AdminAuthController.deleteAdmin)
@@ -45,7 +48,7 @@ router.get('/detailsActu/:id',verifyAdminToken, ActualiteAdminController.details
 
 
 //Blog
-router.get('/getBlog', BlogAdminController.getBlogs)
+router.get('/getBlog',verifyAdminToken, BlogAdminController.getBlogs)
 router.post('/createBlog',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.createBlog)
 router.put('/updateBlog/:id',verifyAdminToken,upload.single('image'),resizeImage(800, 600), BlogAdminController.updateBlog)
 router.delete('/deleteBlog/:id',verifyAdminToken, BlogAdminController.deleteBlog)
@@ -101,6 +104,17 @@ router.get('/detailActu/:id', ActualiteController.detailActu)
 router.get('/AutreActu/:id', ActualiteController.AutreActu)
 router.get('/listeActu', ActualiteController.listeActu)
 
+
+//Like
+router.post('/verifyLike',LikeBlogController.verifyLike)
+router.post('/addLike',LikeBlogController.AddlikeBlog)
+
+
+//comment
+router.post('/addComment',CommentBlogController.addComment)
+router.get('/getComments/:blogId',CommentBlogController.getComments)
+
+
 //blog
 router.get('/listeBlog', BlogController.listeBlog)
 router.get('/dernierBlog', BlogController.dernierBlog)
@@ -114,13 +128,26 @@ router.get('/listeEvent', EventController.getEvent)
 router.get('/getEventById/:id', EventController.getEventById)
 router.get('/ticketDetail/:id', EventController.TicketDetail)
 
+router.post('/addEventFavoris', FavorisController.addEventFavoris)
+router.post('/addActuFavoris', FavorisController.addActuFavoris)
+router.post('/verifyEventFavoris', FavorisController.verifyEventFavoris)
+router.post('/verifyActuFavoris', FavorisController.verifyActuFavoris)
+router.get('/listeFavoris/:userId', FavorisController.listeFavoris)
+
+
 //sugestion
 router.post('/createSuggestion', SuggestionController.createSuggestion)
+
 
 
 //poll
 router.get('/getPoll/:id', PollController.getPollOne)
 router.get('/getPollListe', PollController.getPollListe)
+router.post('/submitPoll', PollController.submitPoll)
+router.post('/submitPoll', PollController.submitPoll)
+
+
+
 
 //..........end fontOffice..................
 
