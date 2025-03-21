@@ -1,6 +1,8 @@
+
 const { deleteFile } = require("../../functions/deleteFile");
 const { Event, Ticket } = require("../../Models");
 const createEventSchema = require("../../Validation/events/ValidateEventShema");
+const { Op } = require("sequelize");
 
 
 class EventAdminController {
@@ -65,6 +67,42 @@ class EventAdminController {
       return res
         .status(500)
         .json({ message: "Erreur serveur", error: error.message });
+    }
+  }
+
+
+  static async getEventAgent(req, res) {
+    try {
+      const today = new Date();
+      const event = await Event.findAll({where: {enabled: true},
+        date: {
+          [Op.gte]: today, // récupère les événements dont la date est supérieure ou égale à aujourd'hui
+        },
+      });
+      
+      return res.status(200).json({event});
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(500)
+        .json({ message: "Erreur serveur", error: error.message });
+    }
+  }
+
+
+  static deleteEvent = async (req, res) => {
+    try {
+      const {id} = req.params;
+      const event = await Event.findByPk(id);
+      if (!event) {
+        return res.status(404).json({ message: "Event not found" });
+      }
+      await event.destroy();
+      deleteFile(event.imageCover);
+      return res.status(200).json({ message: "Event deleted" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Error", error: error.message });
     }
   }
 
