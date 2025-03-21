@@ -11,12 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Actualite.hasMany(models.Favoris, { foreignKey: 'actuId' });
     }
   }
   Actualite.init({
     titre: DataTypes.STRING,
     sous_titre: DataTypes.STRING,
     description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    description_mobile:{
       type: DataTypes.TEXT,
       allowNull: true,
     },

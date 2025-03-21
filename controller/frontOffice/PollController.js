@@ -1,4 +1,4 @@
-const { Poll, Question, Option } = require("../../Models");
+const { Poll, Question, Option,Answer,Response } = require("../../Models");
 
 class PollController {
   static async getPollOne(req, res) {
@@ -59,6 +59,32 @@ class PollController {
       return res.status(500).json({ error: "Erreur serveur" });
     }
   }
+
+
+  static async submitPoll(req,res){
+    try {
+      const { pollId, firstName, lastName, answers } = req.body;
+      console.log(req.body);
+      // Créer la réponse principale
+      const responseInstance = await Response.create({ pollId, firstName, lastName });
+  
+      // Pour chaque réponse à une question, créer une entrée dans Answer
+      for (const ans of answers) {
+        await Answer.create({
+          responseId: responseInstance.id,
+          questionId: ans.questionId,
+          answer: ans.answer,
+        });
+      }
+  
+      res.status(201).json({ message: 'Réponses enregistrées', responseId: responseInstance.id });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Erreur lors de la soumission du sondage' });
+    }
+  }
+
+
 }
 
 module.exports = PollController;

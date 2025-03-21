@@ -16,6 +16,15 @@ module.exports = {
       ticketCode: {
         type: Sequelize.STRING
       },
+      userId:{
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: "Users", // Assurez-vous que le nom correspond exactement à la table des utilisateurs
+          key: "id",
+        },
+        onDelete: "CASCADE", // Supprime les OTPs si l'utilisateur est supprimé
+      },
       EventId: {
         type: Sequelize.INTEGER,
         allowNull: false,

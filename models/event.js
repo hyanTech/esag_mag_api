@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Event.hasMany(models.Ticket, { foreignKey: 'eventId' });
+      Event.hasMany(models.Favoris, { foreignKey: 'eventId' });
       Event.hasOne(models.TicketCode, { foreignKey: 'EventId' });
       Event.hasOne(models.Agent, { foreignKey: 'eventId' });
     }
@@ -25,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
     saleStartDate:{
       type: DataTypes.DATE,
       allowNull:true
+    },
+    description_mobile:{
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     saleEndDate:{
       type: DataTypes.DATE,
