@@ -146,7 +146,7 @@ class EventController {
           date: {
             [Op.gte]: today, // récupère les événements dont la date est supérieure ou égale à aujourd'hui
           },
-        },
+        }, 
         order: [["date", "DESC"]],
         attributes: [
           "id",

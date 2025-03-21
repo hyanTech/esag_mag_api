@@ -29,7 +29,7 @@ router.get('/sendFile/:filename', sendFile);
 
 /* .....................backoffice................. */
 //admin Auth
-router.post('/createAdmin',verifyAdminToken, AdminAuthController.CreateAdmin)
+router.post('/createAdmin', AdminAuthController.CreateAdmin)
 router.get('/getAdmins',verifyAdminToken, AdminAuthController.getAdmins)
 router.post('/AdminLogin', AdminAuthController.AdminLogin)
 router.delete('/deleteAdmin/:id',verifyAdminToken, AdminAuthController.deleteAdmin)
@@ -56,7 +56,7 @@ router.post('/createEvent',verifyAdminToken,upload.single('image'),resizeImage(8
 router.get('/eventListe',verifyAdminToken, EventAdminController.getEvent)
 router.get('/eventListeAgent',verifyAdminToken, EventAdminController.getEventAgent)
 router.delete('/deleteEvent/:id',verifyAdminToken, EventAdminController.deleteEvent)
-
+router.get("/eventDetails/:id",verifyAdminToken, EventAdminController.getEventDetails);
 //sugestion
 router.get('/getSuggestions',verifyAdminToken, SuggestionAdminController.getSuggestions)
 router.get('/detailSuggestion/:id',verifyAdminToken, SuggestionAdminController.detailSuggestion)

@@ -106,6 +106,21 @@ class EventAdminController {
     }
   }
 
+
+
+  static async getEventDetails(req, res) {
+    try {
+      const { id } = req.params;
+      const event = await Event.findByPk(id, {
+        include: [{ model: Ticket }],
+      });
+  
+      return res.status(200).json({ event });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: "Erreur serveur", error: error.message });
+    }
+  }
   
 
 }
