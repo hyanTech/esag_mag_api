@@ -84,6 +84,17 @@ class PollController {
     }
   }
 
+  static async getSondageFirst(req, res) {
+    try {
+      const poll = await Poll.findOne({
+        order: [['createdAt', 'DESC']]
+      });
+      return res.status(200).json({ poll });
+    } catch (error) {
+      return res.status(500).json({ error: "Erreur serveur", error: error.message });
+    }
+  }
+
 
 }
 

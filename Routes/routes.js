@@ -127,6 +127,8 @@ router.get('/getRecentEvents', EventController.getRecentEvents)
 router.get('/listeEvent', EventController.getEvent)
 router.get('/getEventById/:id', EventController.getEventById)
 router.get('/ticketDetail/:id', EventController.TicketDetail)
+router.post('/ticketMobile/:id', EventController.purchaseTicketsMobile)
+router.get('/getTicketCode/:id', EventController.getTicketCode)
 
 router.post('/addEventFavoris', FavorisController.addEventFavoris)
 router.post('/addActuFavoris', FavorisController.addActuFavoris)
@@ -145,6 +147,7 @@ router.get('/getPoll/:id', PollController.getPollOne)
 router.get('/getPollListe', PollController.getPollListe)
 router.post('/submitPoll', PollController.submitPoll)
 router.post('/submitPoll', PollController.submitPoll)
+router.get('/getSondageFirst', PollController.getSondageFirst)
 
 
 

@@ -30,6 +30,15 @@ module.exports = (sequelize, DataTypes) => {
       },
       onDelete: "CASCADE", // Supprime les OTPs si l'utilisateur est supprimé
     },
+    userId:{
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Users", // Assurez-vous que le nom correspond exactement à la table des utilisateurs
+        key: "id",
+      },
+      onDelete: "CASCADE", // Supprime les OTPs si l'utilisateur est supprimé
+    },
     TicketId: {
       type: DataTypes.INTEGER,
       allowNull: false,
