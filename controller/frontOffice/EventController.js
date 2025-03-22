@@ -200,9 +200,36 @@ class EventController {
     }
   }
 
+
+  static async getTicketCode(req, res) {
+    try {
+      const { id } = req.params;
+      const ticketCode = await TicketCode.findAll({
+        where:{userId:id},
+        attributes:['id', 'ticketCode', 'enabled', 'createdAt'],
+        include:[{
+          model: Event,
+          attributes: ['id', 'titre', 'lieu', 'date'],
+        },{
+          model: Ticket,
+          attributes: ['id', 'typeTicket', 'price'],
+        }]
+      });
+      return res.status(200).json({ ticketCode });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: error.message });
+    }
+  }
+
+
+
+
+
   static async purchaseTicketsMobile(req, res) {
     const { id } = req.params;
     const { quantity,userId } = req.body;
+    console.log(req.body);
     try {
       const ticket = await Ticket.findOne({
         where: {
@@ -249,7 +276,7 @@ class EventController {
         for (let i = 0; i < quantity; i++) {
           const ticketCode = uuidv4(); // Code unique pour le ticket
 
-          // Sauvegarde en base
+        /*   // Sauvegarde en base
 
           const EventTicket = {
             EventId: ticket.Event.id,
@@ -259,9 +286,8 @@ class EventController {
             date: ticket.Event.date,
             code: ticketCode,
           };
-
+ */
          
-
           await TicketCode.create(
             {
               /* ticketName: filename, */
