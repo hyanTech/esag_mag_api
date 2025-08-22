@@ -1,5 +1,5 @@
 const createAgentSchema = require("../../Validation/agent/validateShemaAgent");
-const { Agent, Event } = require("../../Models");
+const { Agent, Event,TicketCode,Ticket } = require("../../Models");
 const AgentLoginSchema = require("../../Validation/agent/AgentLoginShema");
 
 class AdminAgentController {
@@ -131,6 +131,19 @@ class AdminAgentController {
             });
           }
     }
+
+
+    static async verifyTicket(req, res) {
+      try {
+       
+        console.log(req.body);
+        return res.status(200).json({ message: "ticket Verifie" });
+      } catch (error) {
+        console.error(error);
+        return res.status(400).json({ message: "Erreur", error: error.message });
+      }
+    }
+    
 
 
 }
