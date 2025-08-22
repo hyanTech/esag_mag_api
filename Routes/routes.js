@@ -22,6 +22,7 @@ const PollController = require("../controller/frontOffice/PollController");
 const LikeBlogController = require("../controller/frontOffice/LikeBlogController");
 const CommentBlogController = require("../controller/frontOffice/CommentBlogController");
 const FavorisController = require("../controller/frontOffice/FavorisController");
+const { isAgentAuthenticated } = require("../middlewares/AgentMiddleware");
 const router = express.Router();
 
 router.get('/', Controller.test);
@@ -76,6 +77,7 @@ router.delete('/deleteAgent/:id',verifyAdminToken,AdminAgentController.deleteAge
 router.post('/AgentConnexion',AdminAgentController.AgentConnexion)
 router.post('/logoutAgent',AdminAgentController.LogoutAgent)
 router.get('/checkSession',AdminAgentController.checkSession)
+router.post('/verifyTicket',isAgentAuthenticated,AdminAgentController.verifyTicket)
 
 
 //poll
@@ -91,6 +93,8 @@ router.post('/createPoll',verifyAdminToken, AdminSondageController.createPoll)
 
 //user
 router.post('/createUser', UserController.UserCreateSendSms)
+router.post('/createPassword', UserController.createPassword)
+router.post('/verifyPassword', UserController.verifyPassword)
 router.post('/verifyOtp', UserController.verifyOtp)
 router.post('/completeAccount/:id', UserController.completeAccount)
 

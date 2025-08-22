@@ -1,7 +1,6 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
+const bcrypt = require("bcryptjs");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -12,24 +11,45 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-  }
-  User.init({
-    nom: DataTypes.STRING,
-    prenom: DataTypes.STRING,
-    numero: DataTypes.STRING,
-    appartenance: DataTypes.STRING,
-    profile: DataTypes.STRING,
-    verified: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
-    },
-    enabled: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: false
+    validPasswordUser(password) {
+      return bcrypt.compareSync(password, this.password);
     }
-  }, {
-    sequelize,
-    modelName: 'User',
-  });
+  }
+  User.init(
+    {
+      nom: DataTypes.STRING,
+      prenom: DataTypes.STRING,
+      numero: DataTypes.STRING,
+      appartenance: DataTypes.STRING,
+      profile: DataTypes.STRING,
+      password: DataTypes.STRING,
+      verified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+      enabled: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+      },
+    },
+    {
+      sequelize,
+      modelName: "User",
+      hooks: {
+        beforeCreate: async (user) => {
+          if (user.password) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+          }
+        },
+        beforeUpdate: async (user) => {
+          if (user.password && user.changed("password")) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(user.password, salt);
+          }
+        },
+      },
+    }
+  );
   return User;
 };
