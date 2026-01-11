@@ -2,7 +2,7 @@ const {
   generateUniqueProfileImage,
 } = require("../../functions/imageGenerator");
 const { sendSms } = require("../../functions/SendSms");
-const { User, Otp } = require("../../Models");
+const { User, Otp } = require("../../models");
 const { createUserSchema } = require("../../Validation/user/UserValidate");
 const bcrypt = require("bcryptjs");
 class UserController {

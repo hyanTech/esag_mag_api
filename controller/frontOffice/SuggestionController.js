@@ -1,5 +1,5 @@
 const { Suggestion } = require('../../models');
-const {createSuggestionSchema} = require ("../../Validation/Suggestion/SuggestionsValidate");
+const {createSuggestionSchema} = require ("../../Validation/suggestion/SuggestionsValidate");
 
 
 class SuggestionController {

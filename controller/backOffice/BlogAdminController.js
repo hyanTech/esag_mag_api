@@ -1,5 +1,5 @@
 const { deleteFile } = require("../../functions/deleteFile");
-const { Blog } = require("../../Models");
+const { Blog } = require("../../models");
 const createBlogSchema = require("../../Validation/blog/createBlogSchema");
 const updateBlog = require("../../Validation/blog/UpdateBlog");
 

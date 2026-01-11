@@ -1,4 +1,4 @@
-const {User} = require("../../Models");
+const {User} = require("../../models");
 const { UpdateUserSchema } = require("../../Validation/user/UpdateUser");
 
 class AdminUserController {

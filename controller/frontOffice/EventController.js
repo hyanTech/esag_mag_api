@@ -1,8 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
 const QRCode = require("qrcode");
 const { Op } = require("sequelize");
-const { sequelize } = require("../../Models");
-const { Event, Ticket, TicketCode } = require("../../Models");
+const { sequelize } = require("../../models");
+const { Event, Ticket, TicketCode } = require("../../models");
 const { generateTicketPDF } = require("../../functions/generateTicketPDF");
 
 class EventController {

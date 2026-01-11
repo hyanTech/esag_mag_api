@@ -1,4 +1,4 @@
-const { Comment,User } = require("../../Models"); // Assurez-vous que le chemin est correct
+const { Comment,User } = require("../../models"); // Assurez-vous que le chemin est correct
 const socketModule = require("../../config/socket");
 
 class CommentBlogController{

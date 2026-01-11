@@ -1,4 +1,4 @@
-const { Poll, Question, Option,Answer,Response } = require("../../Models");
+const { Poll, Question, Option,Answer,Response } = require("../../models");
 
 class PollController {
   static async getPollOne(req, res) {

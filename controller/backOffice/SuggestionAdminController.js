@@ -1,4 +1,4 @@
-const { Suggestion } = require('../../Models');
+const { Suggestion } = require('../../models');
 
 class SuggestionAdminController {
   static async getSuggestions(req, res) {

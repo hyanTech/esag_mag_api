@@ -1,4 +1,4 @@
-const {Poll, Question, Option} = require("../../Models");
+const {Poll, Question, Option} = require("../../models");
 const { ZodError } = require("zod");
 const { pollSchema } = require("../../Validation/Poll/validatePoll");
 

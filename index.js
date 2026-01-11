@@ -3,17 +3,17 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./Routes/routes");
 const session = require("express-session");
-const { sequelize } = require("./Models");
+const { sequelize } = require("./models");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const http = require("http");
 const socketModule = require("./config/socket");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+
 
 // Configuration de CORS
 const corsOptions = {
-  origin: ["http://localhost:3000"], // ou l'URL de votre front-end
+  origin: "*", // ou l'URL de votre front-end
   credentials: true,
 };
 
@@ -56,13 +56,13 @@ socketModule.init(server, {
   },
 });
 
-
+const PORT = process.env.PORT || 6000;
 // Démarrage du serveur
-server.listen(PORT, async () => {
+server.listen(PORT, "0.0.0.0", async () => {
   try {
     await sequelize.authenticate();
     console.log("Connexion à la base de données réussie.");
-    console.log(`Serveur démarré sur http://localhost:${PORT}`);
+    console.log(`Serveur démarré sur http://0.0.0.0:${PORT}`);
   } catch (error) {
     console.error("Impossible de se connecter à la base de données : ", error);
   }

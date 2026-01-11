@@ -6,6 +6,7 @@ module.exports = {
     password: process.env.DB_PASSWORD || '1234',
     database: process.env.DB_NAME || 'esag_mag',
     host: process.env.DB_HOST || '127.0.0.1',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql',
     logging: false
   },
@@ -14,6 +15,7 @@ module.exports = {
     password: process.env.DB_PASSWORD || null,
     database: process.env.DB_TEST_NAME || 'database_test',
     host: process.env.DB_HOST || '127.0.0.1',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql'
   },
   production: {
@@ -21,6 +23,7 @@ module.exports = {
     password: process.env.DB_PASSWORD || null,
     database: process.env.DB_PROD_NAME || 'database_production',
     host: process.env.DB_HOST || '127.0.0.1',
+    port: process.env.DB_PORT || 3306,
     dialect: 'mysql'
   }
 };

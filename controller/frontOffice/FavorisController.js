@@ -1,4 +1,4 @@
-const { Favoris,Event,Actualite } = require("../../Models"); 
+const { Favoris,Event,Actualite } = require("../../models"); 
 
 
 

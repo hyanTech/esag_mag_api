@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: node_api_mag
+    ports:
+      - "6000:6000"
+    env_file:
+      - .env
+    depends_on:
+      - mysql
+    command: npm start
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_mag
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: esag_mag
+      MYSQL_USER: api_user
+      MYSQL_PASSWORD: secret
+    ports:
+      - "3307:3306"   # ⚠️ 3307 côté machine
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

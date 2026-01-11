@@ -1,6 +1,6 @@
 
 const { deleteFile } = require("../../functions/deleteFile");
-const { Event, Ticket } = require("../../Models");
+const { Event, Ticket } = require("../../models");
 const createEventSchema = require("../../Validation/events/ValidateEventShema");
 const { Op } = require("sequelize");
 

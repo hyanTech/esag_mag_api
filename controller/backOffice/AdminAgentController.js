@@ -1,5 +1,5 @@
 const createAgentSchema = require("../../Validation/agent/validateShemaAgent");
-const { Agent, Event,TicketCode,Ticket } = require("../../Models");
+const { Agent, Event,TicketCode,Ticket } = require("../../models");
 const AgentLoginSchema = require("../../Validation/agent/AgentLoginShema");
 
 class AdminAgentController {

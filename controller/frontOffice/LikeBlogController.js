@@ -1,4 +1,4 @@
-const { Like, Blog } = require("../../Models"); // Assurez-vous que le chemin est correct
+const { Like, Blog } = require("../../models"); // Assurez-vous que le chemin est correct
 const socketModule = require("../../config/socket"); // Export de io depuis votre fichier index.js
 
 class LikeBlogController {
